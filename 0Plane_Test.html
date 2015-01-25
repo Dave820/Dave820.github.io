@@ -30,8 +30,8 @@
 		<a href="http://threejs.org" target="_blank">three.js</a> - OBJLoader test
 		</div>
 
-		<script src="http://mrdoob.githoob.io/build/three.min.js"></script>
-		<script src="http://mrdoob.githoob.io/examples/js/loaders/OBJLoader.js"></script>
+		<script src="http://mrdoob.github.io/build/three.min.js"></script>
+		<script src="http://mrdoob.github.io/examples/js/loaders/OBJLoader.js"></script>
 
 		<script>
 
@@ -91,7 +91,7 @@
 
 
 				var loader = new THREE.ImageLoader( manager );
-				loader.load( 'http://mrdoob.githoob.io/examples/textures/UV_Grid_Sm.jpg', function ( image ) {
+				loader.load( 'http://mrdoob.github.io/examples/textures/UV_Grid_Sm.jpg', function ( image ) {
 
 					texture.image = image;
 					texture.needsUpdate = true;
@@ -101,7 +101,7 @@
 				// model
 
 				var loader = new THREE.OBJLoader( manager );
-				loader.load( 'http://mrdoob.githoob.io/examples/obj/male02/male02.obj', function ( object ) {
+				loader.load( 'http://mrdoob.github.io/examples/obj/male02/male02.obj', function ( object ) {
 
 					object.traverse( function ( child ) {
 
