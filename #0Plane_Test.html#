@@ -63,7 +63,7 @@
 
 				var ambient = new THREE.AmbientLight( 0x101030 );
 				scene.add( ambient );
-
+/Users/Dave/three.js/examples/obj/male02/male02.obj /Users/Dave/three.js/examples/obj/male02/male02.obj 
 				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
 				directionalLight.position.set( 0, 0, 1 );
 				scene.add( directionalLight );
