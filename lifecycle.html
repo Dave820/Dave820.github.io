@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems Software V-Lifecycle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .lifecycle-diagram {
+            position: relative;
+            width: 100%;
+            height: 800px;
+            margin: 0 auto;
+        }
+
+        /* V-shaped SVG path */
+        .v-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Stage containers */
+        .stage {
+            position: absolute;
+            width: 280px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .stage-title {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            font-weight: bold;
+            font-size: 1.1em;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-bottom: none;
+        }
+
+        .video-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top: none;
+        }
+
+        .video-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 157px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .play-overlay::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid #1e3c72;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+
+        .video-container:hover .play-overlay {
+            background: rgba(255, 255, 255, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* Fullscreen video overlay */
+        .fullscreen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .fullscreen-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fullscreen-video {
+            max-width: 90%;
+            max-height: 90%;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 50%;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .close-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Position stages in V formation */
+        /* Left side - descending */
+        .stage-1 { top: 50px; left: 50px; }
+        .stage-2 { top: 200px; left: 150px; }
+        .stage-3 { top: 350px; left: 250px; }
+        .stage-4 { top: 500px; left: 350px; }
+
+        /* Bottom - implementation */
+        .stage-5 { top: 600px; left: 50%; transform: translateX(-50%); }
+
+        /* Right side - ascending */
+        .stage-6 { top: 500px; right: 350px; }
+        .stage-7 { top: 350px; right: 250px; }
+        .stage-8 { top: 200px; right: 150px; }
+        .stage-9 { top: 50px; right: 50px; }
+
+        .stage-description {
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0 10px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .lifecycle-diagram {
+                height: 1200px;
+            }
+
+            .stage {
+                width: 240px;
+            }
+
+            .stage-1 { top: 50px; left: 20px; }
+            .stage-2 { top: 180px; left: 80px; }
+            .stage-3 { top: 310px; left: 140px; }
+            .stage-4 { top: 440px; left: 200px; }
+            .stage-5 { top: 570px; left: 50%; transform: translateX(-50%); }
+            .stage-6 { top: 700px; right: 200px; }
+            .stage-7 { top: 830px; right: 140px; }
+            .stage-8 { top: 960px; right: 80px; }
+            .stage-9 { top: 1090px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Systems Software V-Lifecycle</h1>
+
+        <div class="lifecycle-diagram">
+            <!-- SVG for V-shaped line -->
+            <svg class="v-line" viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:rgba(255,255,255,0.6);stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:rgba(255,255,255,0.3);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:rgba(255,255,255,0.6);stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 180 100 L 380 250 L 580 400 L 700 550 L 700 700 L 820 550 L 1020 400 L 1220 250 L 1220 100"
+                      stroke="url(#lineGradient)"
+                      stroke-width="3"
+                      fill="none"
+                      stroke-dasharray="10,5"/>
+            </svg>
+
+            <!-- Left side stages -->
+            <div class="stage stage-1">
+                <div class="stage-title">Requirements Analysis</div>
+                <div class="video-container" data-video="videos/requirements.mp4">
+                    <video class="video-thumbnail" poster="videos/requirements-thumb.jpg" muted>
+                        <source src="videos/requirements.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"></div>
+                </div>
+                <div class="stage-description">Define system requirements and specifications</div>
+            </div>
+
+            <div class="stage stage-2">
+                <div class="stage-title">System Design</div>
+                <div class="video-container" data-video="videos/design.mp4">
+                    <video class="video-thumbnail" poster="videos/design-thumb.jpg" muted>
+                        <source src="videos/design.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"></div>
+                </div>
+                <div class="stage-description">Architect the system structure</div>
+            </div>
+
+            <div class="stage stage-3">
+                <div class="stage-title">Architecture Design</div>
+                <div class="video-container" data-video="videos/architecture.mp4">
+                    <video class="video-thumbnail" poster="videos/architecture-thumb.jpg" muted>
+                        <source src="videos/architecture.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"></div>
+                </div>
+                <div class="stage-description">Define modules and interfaces</div>
+            </div>
+
+            <div class="stage stage-4">
+                <div class="stage-title">Module Design</div>
+                <div class="video-container" data-video="videos/module.mp4">
+                    <video class="video-thumbnail" poster="videos/module-thumb.jpg" muted>
+                        <source src="videos/module.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"></div>
+                </div>
+                <div class="stage-description">Detailed component design</div>
+            </div>
+
+            <!-- Bottom stage -->
+            <div class="stage stage-5">
+                <div class="stage-title">Implementation</div>
+                <div class="video-container" data-video="videos/implementation.mp4">
+                    <video class="video-thumbnail" poster="videos/implementation-thumb.jpg" muted>
+                        <source src="videos/implementation.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"></div>
+                </div>
+                <div class="stage-description">Code development and unit testing</div>
+            </div>
+
+            <!-- Right side stages -->
+            <div class="stage stage-6">
+                <div class="stage-title">Module Testing</div>
+                <div class="video-container" data-video="videos/module-test.mp4">
+                    <video class="video-thumbnail" poster="videos/module-test-thumb.jpg" muted>
+                        <source src="videos/module-test.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"></div>
+                </div>
+                <div class="stage-description">Test individual modules</div>
+            </div>
+
+            <div class="stage stage-7">
+                <div class="stage-title">Integration Testing</div>
+                <div class="video-container" data-video="videos/integration.mp4">
+                    <video class="video-thumbnail" poster="videos/integration-thumb.jpg" muted>
+                        <source src="videos/integration.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"></div>
+                </div>
+                <div class="stage-description">Test module integration</div>
+            </div>
+
+            <div class="stage stage-8">
+                <div class="stage-title">System Testing</div>
+                <div class="video-container" data-video="videos/system-test.mp4">
+                    <video class="video-thumbnail" poster="videos/system-test-thumb.jpg" muted>
+                        <source src="videos/system-test.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"></div>
+                </div>
+                <div class="stage-description">Verify system functionality</div>
+            </div>
+
+            <div class="stage stage-9">
+                <div class="stage-title">Acceptance Testing</div>
+                <div class="video-container" data-video="videos/acceptance.mp4">
+                    <video class="video-thumbnail" poster="videos/acceptance-thumb.jpg" muted>
+                        <source src="videos/acceptance.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-overlay"></div>
+                </div>
+                <div class="stage-description">Validate against requirements</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen overlay -->
+    <div class="fullscreen-overlay" id="fullscreenOverlay">
+        <div class="close-button" id="closeButton">&times;</div>
+        <video class="fullscreen-video" id="fullscreenVideo" controls>
+            <source src="" type="video/mp4">
+        </video>
+    </div>
+
+    <script>
+        // Get all video containers
+        const videoContainers = document.querySelectorAll('.video-container');
+        const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+        const fullscreenVideo = document.getElementById('fullscreenVideo');
+        const closeButton = document.getElementById('closeButton');
+
+        // Function to play video thumbnails on hover
+        videoContainers.forEach(container => {
+            const thumbnailVideo = container.querySelector('.video-thumbnail');
+
+            container.addEventListener('mouseenter', () => {
+                if (thumbnailVideo && !fullscreenOverlay.classList.contains('active')) {
+                    thumbnailVideo.play().catch(e => console.log('Autoplay prevented:', e));
+                }
+            });
+
+            container.addEventListener('mouseleave', () => {
+                if (thumbnailVideo && !fullscreenOverlay.classList.contains('active')) {
+                    thumbnailVideo.pause();
+                    thumbnailVideo.currentTime = 0;
+                }
+            });
+
+            // Click to expand to fullscreen
+            container.addEventListener('click', () => {
+                const videoSrc = container.getAttribute('data-video');
+                fullscreenVideo.querySelector('source').src = videoSrc;
+                fullscreenVideo.load();
+                fullscreenOverlay.classList.add('active');
+                fullscreenVideo.play();
+            });
+        });
+
+        // Close fullscreen on close button click
+        closeButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeFullscreen();
+        });
+
+        // Close fullscreen on overlay click
+        fullscreenOverlay.addEventListener('click', (e) => {
+            if (e.target === fullscreenOverlay) {
+                closeFullscreen();
+            }
+        });
+
+        // Close fullscreen on video click
+        fullscreenVideo.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeFullscreen();
+        });
+
+        // Close fullscreen with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && fullscreenOverlay.classList.contains('active')) {
+                closeFullscreen();
+            }
+        });
+
+        function closeFullscreen() {
+            fullscreenOverlay.classList.remove('active');
+            fullscreenVideo.pause();
+            fullscreenVideo.currentTime = 0;
+        }
+
+        // Prevent context menu on videos
+        document.querySelectorAll('video').forEach(video => {
+            video.addEventListener('contextmenu', e => e.preventDefault());
+        });
+    </script>
+</body>
+</html>
