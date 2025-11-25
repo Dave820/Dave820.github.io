@@ -92,6 +92,31 @@
             display: block;
         }
 
+        .placeholder-thumbnail {
+            width: 100%;
+            height: 157px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-size: 0.9em;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            line-height: 1.4;
+            animation: gradientShift 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+            50% {
+                background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            }
+        }
+
         .play-overlay {
             position: absolute;
             top: 50%;
@@ -246,10 +271,8 @@
             <!-- Left side stages -->
             <div class="stage stage-1">
                 <div class="stage-title">Requirements Analysis</div>
-                <div class="video-container" data-video="videos/requirements.mp4">
-                    <video class="video-thumbnail" poster="videos/requirements-thumb.jpg" muted>
-                        <source src="videos/requirements.mp4" type="video/mp4">
-                    </video>
+                <div class="video-container" data-video="videos/requirements.mp4" data-stage="Requirements Analysis">
+                    <div class="placeholder-thumbnail">Requirements Analysis<br>Video Placeholder</div>
                     <div class="play-overlay"></div>
                 </div>
                 <div class="stage-description">Define system requirements and specifications</div>
@@ -257,10 +280,8 @@
 
             <div class="stage stage-2">
                 <div class="stage-title">System Design</div>
-                <div class="video-container" data-video="videos/design.mp4">
-                    <video class="video-thumbnail" poster="videos/design-thumb.jpg" muted>
-                        <source src="videos/design.mp4" type="video/mp4">
-                    </video>
+                <div class="video-container" data-video="videos/design.mp4" data-stage="System Design">
+                    <div class="placeholder-thumbnail">System Design<br>Video Placeholder</div>
                     <div class="play-overlay"></div>
                 </div>
                 <div class="stage-description">Architect the system structure</div>
@@ -268,10 +289,8 @@
 
             <div class="stage stage-3">
                 <div class="stage-title">Architecture Design</div>
-                <div class="video-container" data-video="videos/architecture.mp4">
-                    <video class="video-thumbnail" poster="videos/architecture-thumb.jpg" muted>
-                        <source src="videos/architecture.mp4" type="video/mp4">
-                    </video>
+                <div class="video-container" data-video="videos/architecture.mp4" data-stage="Architecture Design">
+                    <div class="placeholder-thumbnail">Architecture Design<br>Video Placeholder</div>
                     <div class="play-overlay"></div>
                 </div>
                 <div class="stage-description">Define modules and interfaces</div>
@@ -279,10 +298,8 @@
 
             <div class="stage stage-4">
                 <div class="stage-title">Module Design</div>
-                <div class="video-container" data-video="videos/module.mp4">
-                    <video class="video-thumbnail" poster="videos/module-thumb.jpg" muted>
-                        <source src="videos/module.mp4" type="video/mp4">
-                    </video>
+                <div class="video-container" data-video="videos/module.mp4" data-stage="Module Design">
+                    <div class="placeholder-thumbnail">Module Design<br>Video Placeholder</div>
                     <div class="play-overlay"></div>
                 </div>
                 <div class="stage-description">Detailed component design</div>
@@ -291,10 +308,8 @@
             <!-- Bottom stage -->
             <div class="stage stage-5">
                 <div class="stage-title">Implementation</div>
-                <div class="video-container" data-video="videos/implementation.mp4">
-                    <video class="video-thumbnail" poster="videos/implementation-thumb.jpg" muted>
-                        <source src="videos/implementation.mp4" type="video/mp4">
-                    </video>
+                <div class="video-container" data-video="videos/implementation.mp4" data-stage="Implementation">
+                    <div class="placeholder-thumbnail">Implementation<br>Video Placeholder</div>
                     <div class="play-overlay"></div>
                 </div>
                 <div class="stage-description">Code development and unit testing</div>
@@ -303,10 +318,8 @@
             <!-- Right side stages -->
             <div class="stage stage-6">
                 <div class="stage-title">Module Testing</div>
-                <div class="video-container" data-video="videos/module-test.mp4">
-                    <video class="video-thumbnail" poster="videos/module-test-thumb.jpg" muted>
-                        <source src="videos/module-test.mp4" type="video/mp4">
-                    </video>
+                <div class="video-container" data-video="videos/module-test.mp4" data-stage="Module Testing">
+                    <div class="placeholder-thumbnail">Module Testing<br>Video Placeholder</div>
                     <div class="play-overlay"></div>
                 </div>
                 <div class="stage-description">Test individual modules</div>
@@ -314,10 +327,8 @@
 
             <div class="stage stage-7">
                 <div class="stage-title">Integration Testing</div>
-                <div class="video-container" data-video="videos/integration.mp4">
-                    <video class="video-thumbnail" poster="videos/integration-thumb.jpg" muted>
-                        <source src="videos/integration.mp4" type="video/mp4">
-                    </video>
+                <div class="video-container" data-video="videos/integration.mp4" data-stage="Integration Testing">
+                    <div class="placeholder-thumbnail">Integration Testing<br>Video Placeholder</div>
                     <div class="play-overlay"></div>
                 </div>
                 <div class="stage-description">Test module integration</div>
@@ -325,10 +336,8 @@
 
             <div class="stage stage-8">
                 <div class="stage-title">System Testing</div>
-                <div class="video-container" data-video="videos/system-test.mp4">
-                    <video class="video-thumbnail" poster="videos/system-test-thumb.jpg" muted>
-                        <source src="videos/system-test.mp4" type="video/mp4">
-                    </video>
+                <div class="video-container" data-video="videos/system-test.mp4" data-stage="System Testing">
+                    <div class="placeholder-thumbnail">System Testing<br>Video Placeholder</div>
                     <div class="play-overlay"></div>
                 </div>
                 <div class="stage-description">Verify system functionality</div>
@@ -336,10 +345,8 @@
 
             <div class="stage stage-9">
                 <div class="stage-title">Acceptance Testing</div>
-                <div class="video-container" data-video="videos/acceptance.mp4">
-                    <video class="video-thumbnail" poster="videos/acceptance-thumb.jpg" muted>
-                        <source src="videos/acceptance.mp4" type="video/mp4">
-                    </video>
+                <div class="video-container" data-video="videos/acceptance.mp4" data-stage="Acceptance Testing">
+                    <div class="placeholder-thumbnail">Acceptance Testing<br>Video Placeholder</div>
                     <div class="play-overlay"></div>
                 </div>
                 <div class="stage-description">Validate against requirements</div>
@@ -362,32 +369,82 @@
         const fullscreenVideo = document.getElementById('fullscreenVideo');
         const closeButton = document.getElementById('closeButton');
 
-        // Function to play video thumbnails on hover
+        // Animate placeholder backgrounds on hover
         videoContainers.forEach(container => {
-            const thumbnailVideo = container.querySelector('.video-thumbnail');
+            const placeholder = container.querySelector('.placeholder-thumbnail');
 
-            container.addEventListener('mouseenter', () => {
-                if (thumbnailVideo && !fullscreenOverlay.classList.contains('active')) {
-                    thumbnailVideo.play().catch(e => console.log('Autoplay prevented:', e));
-                }
-            });
+            if (placeholder) {
+                container.addEventListener('mouseenter', () => {
+                    placeholder.style.backgroundImage = 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)';
+                });
 
-            container.addEventListener('mouseleave', () => {
-                if (thumbnailVideo && !fullscreenOverlay.classList.contains('active')) {
-                    thumbnailVideo.pause();
-                    thumbnailVideo.currentTime = 0;
-                }
-            });
+                container.addEventListener('mouseleave', () => {
+                    placeholder.style.backgroundImage = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                });
+            }
 
             // Click to expand to fullscreen
             container.addEventListener('click', () => {
+                const stageName = container.getAttribute('data-stage');
                 const videoSrc = container.getAttribute('data-video');
-                fullscreenVideo.querySelector('source').src = videoSrc;
-                fullscreenVideo.load();
-                fullscreenOverlay.classList.add('active');
-                fullscreenVideo.play();
+
+                // Check if actual video exists, otherwise show placeholder message
+                const testVideo = document.createElement('video');
+                testVideo.src = videoSrc;
+
+                testVideo.onerror = () => {
+                    showPlaceholderFullscreen(stageName);
+                };
+
+                testVideo.onloadeddata = () => {
+                    // Video exists, play it
+                    fullscreenVideo.querySelector('source').src = videoSrc;
+                    fullscreenVideo.load();
+                    fullscreenOverlay.classList.add('active');
+                    fullscreenVideo.style.display = 'block';
+                    fullscreenVideo.play();
+                };
+
+                // Try to load
+                testVideo.load();
             });
         });
+
+        function showPlaceholderFullscreen(stageName) {
+            // Hide video element and show placeholder message
+            fullscreenVideo.style.display = 'none';
+
+            // Create placeholder message element if it doesn't exist
+            let placeholderMsg = document.getElementById('placeholderMessage');
+            if (!placeholderMsg) {
+                placeholderMsg = document.createElement('div');
+                placeholderMsg.id = 'placeholderMessage';
+                placeholderMsg.style.cssText = `
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    padding: 60px;
+                    border-radius: 20px;
+                    text-align: center;
+                    max-width: 600px;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+                `;
+                fullscreenOverlay.insertBefore(placeholderMsg, closeButton);
+            }
+
+            placeholderMsg.innerHTML = `
+                <h2 style="font-size: 2.5em; margin-bottom: 20px;">${stageName}</h2>
+                <p style="font-size: 1.3em; margin-bottom: 30px;">Video Placeholder</p>
+                <p style="font-size: 1em; opacity: 0.9;">
+                    Add your video file to the /videos/ directory<br>
+                    to replace this placeholder
+                </p>
+                <p style="font-size: 0.9em; margin-top: 30px; opacity: 0.7;">
+                    Click anywhere to close
+                </p>
+            `;
+
+            placeholderMsg.style.display = 'block';
+            fullscreenOverlay.classList.add('active');
+        }
 
         // Close fullscreen on close button click
         closeButton.addEventListener('click', (e) => {
@@ -397,7 +454,7 @@
 
         // Close fullscreen on overlay click
         fullscreenOverlay.addEventListener('click', (e) => {
-            if (e.target === fullscreenOverlay) {
+            if (e.target === fullscreenOverlay || e.target.closest('#placeholderMessage')) {
                 closeFullscreen();
             }
         });
@@ -419,6 +476,12 @@
             fullscreenOverlay.classList.remove('active');
             fullscreenVideo.pause();
             fullscreenVideo.currentTime = 0;
+            fullscreenVideo.style.display = 'block';
+
+            const placeholderMsg = document.getElementById('placeholderMessage');
+            if (placeholderMsg) {
+                placeholderMsg.style.display = 'none';
+            }
         }
 
         // Prevent context menu on videos
